@@ -12,14 +12,7 @@ class GameTracker
         if k.blank?
           nil
         else
-          list = k.split(' ')
-          if list.count > 2
-            list[0..1]
-          elsif list.count == 2
-            list
-          else
-            nil
-          end
+          k.split(' ')
         end
       end.compact
     end

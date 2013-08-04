@@ -5,7 +5,7 @@ require 'active_support/core_ext/object/blank'
 describe GameTracker do
   describe '#split_game_string' do
     it do
-      GameTracker.split_game_string('1. e4 e6 2. d4 d5 3. Nc3 Bb4 0-1').should == [
+      GameTracker.split_game_string('1. e4 e6 2. d4 d5 3. Nc3 Bb4').should == [
         ['e4', 'e6'],
         ['d4', 'd5'],
         ['Nc3', 'Bb4'],
@@ -15,7 +15,7 @@ describe GameTracker do
 
   describe 'basic behavior' do
     before(:all) do
-      @game_instance = GameTracker.new("1. e4 e6 2. d4 d5 3. Nc3 Bb4 0-1")
+      @game_instance = GameTracker.new("1. e4 e6 2. d4 d5 3. Nc3 Bb4")
     end
     it { @game_instance.correct_guess?.should     == false }
     it { @game_instance.next_opponent_move.should == 'e6' }
