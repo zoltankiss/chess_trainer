@@ -27,12 +27,55 @@ describe GameTracker do
     end
   end
 
+  describe '#serialize' do
+    it do
+      game_instance = GameTracker.new("1. e4 e6 2. d4 d5 3. Nc3 Bb4")
+      game_instance.guess_next_move('e4')
+      game_instance.serialize.should == {
+        original_game:         'e4,e6|d4,d5|Nc3,Bb4',
+        current_game:          'd4,d5|Nc3,Bb4',
+        current_game_score:    1,
+        last_move:             'e4'
+      }
+    end
+  end
+
+  describe '#load_serialization' do
+    before(:all) do
+      @game_instance = GameTracker.load_serialization({
+        original_game:         'e4,e6|d4,d5|Nc3,Bb4',
+        current_game:          'd4,d5|Nc3,Bb4',
+        current_game_score:    1,
+        last_move:             nil
+      })
+    end
+    it { @game_instance.next_opponent_move.should be_nil }
+    describe 'second move' do
+      context 'wrong' do
+        before(:all) { @game_instance.guess_next_move('e4') }
+        it { @game_instance.correct_guess?.should     == false }
+        it { @game_instance.next_opponent_move.should == 'd5' }
+        it { @game_instance.current_score.should      == 1 }
+        it { @game_instance.game_is_over?.should      == false }
+      end
+      describe 'third move' do
+        context 'correct' do
+          before(:all) { @game_instance.guess_next_move('Nc3') }
+          it { @game_instance.correct_guess?.should     == true }
+          it { @game_instance.next_opponent_move.should == 'Bb4' }
+          it { @game_instance.current_score.should      == 2 }
+          it { @game_instance.game_is_over?.should      == true }
+        end
+      end
+    end
+  end
+
   describe 'basic behavior' do
     before(:all) do
       @game_instance = GameTracker.new("1. e4 e6 2. d4 d5 3. Nc3 Bb4")
     end
     it { @game_instance.correct_guess?.should     == false }
-    it { @game_instance.next_opponent_move.should == 'e6' }
+    it { @game_instance.next_opponent_move.should be_nil }
     it { @game_instance.current_score.should      == 0 }
     it { @game_instance.game_is_over?.should      == false }
     describe 'first move' do

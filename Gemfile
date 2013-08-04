@@ -32,8 +32,10 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+gem "haml", "4.0.3"
+
 group :test do
-  gem "rspec-rails", "~> 2.14.0"
+  gem "rspec-rails", "2.14.0"
 end
 
 # Use ActiveModel has_secure_password
@@ -46,4 +48,4 @@ end
 # gem 'capistrano', group: :development
 
 # Use debugger
-# gem 'debugger', group: [:development, :test]
+gem 'debugger', group: [:development, :test]

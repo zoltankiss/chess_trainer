@@ -1,0 +1,11 @@
+<h2>score: <%= @game.current_score %></h2>
+<h2>your opponent's move: <%= @game.next_opponent_move %></h2>
+
+<% if @game.game_is_over? %>
+  <h1>Game over!</h1>
+<% else %>
+  <%= form_tag(guess_next_move_path(@game_model_instance.id), method: "put") do %>
+    guess next move: <%= text_field_tag :move %><br />
+    <%= submit_tag("Submit move guess!") %>
+  <% end %>
+<% end %>

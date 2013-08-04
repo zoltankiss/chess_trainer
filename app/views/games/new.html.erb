@@ -1,0 +1,4 @@
+<%= form_tag("/create_game", method: "post") do %>
+  <%= text_area_tag 'moves', '1. e4 e6 2. d4 d5 3. Nc3 Bb4' %>
+  <%= submit_tag("Start Game!") %>
+<% end %>

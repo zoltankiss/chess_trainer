@@ -1,9 +1,19 @@
 class GameTracker
-  def initialize(game)
-    @score = 0
-    @current_move_correct = false
-    @remaining_moves = self.class.split_game_string(game.remove_newlines)
-    @next_opponent_move = @remaining_moves[0][1]
+  attr_accessor :score,
+                :current_move_correct,
+                :original_moves,
+                :remaining_moves,
+                :next_opponent_move,
+                :last_move
+
+  def initialize(game = nil)
+    unless game.nil?
+      @score = 0
+      @current_move_correct = false
+      @original_moves = @remaining_moves = self.class.split_game_string(game.remove_newlines)
+      @next_opponent_move = @remaining_moves[0][1]
+      @last_move = nil
+    end
   end
 
   class << self
@@ -24,9 +34,30 @@ class GameTracker
         end
       end.compact
     end
+
+    def load_serialization(serialization)
+      instance                      = self.new
+      instance.score                = serialization[:current_game_score]
+      instance.current_move_correct = false
+      instance.original_moves       = de_serialize_moves(serialization[:original_game])
+      instance.remaining_moves      = de_serialize_moves(serialization[:current_game])
+      instance.next_opponent_move   = instance.remaining_moves[0][1]
+      instance.last_move            = serialization[:last_move]
+      instance
+    end
+  end
+
+  def serialize
+    {
+      original_game:         self.class.serialize_moves(@original_moves),
+      current_game:          self.class.serialize_moves(@remaining_moves),
+      current_game_score:    @score,
+      last_move:             @last_move
+    }
   end
 
   def guess_next_move(move)
+    @last_move = @remaining_moves[0][0]
     if @remaining_moves[0][0] == move
       @score += 1
       @current_move_correct = true
@@ -52,6 +83,10 @@ class GameTracker
   end
 
   def next_opponent_move
-    @next_opponent_move
+    if @last_move.nil?
+      nil
+    else
+      @next_opponent_move
+    end
   end
 end
