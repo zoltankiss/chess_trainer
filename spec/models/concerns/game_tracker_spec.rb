@@ -13,6 +13,20 @@ describe GameTracker do
     end
   end
 
+  context 'move serialization' do
+    describe '.serialize_moves' do
+      it { GameTracker.serialize_moves([['e4', 'e5'], ['Nc3', 'Nc6']]).should == 'e4,e5|Nc3,Nc6' }
+    end
+
+    describe '.de_serialize_moves' do
+      it { GameTracker.de_serialize_moves('e4,e5|Nc3,Nc6').should == [['e4', 'e5'], ['Nc3', 'Nc6']] }
+    end
+
+    describe 'serialization' do
+      it { GameTracker.de_serialize_moves(GameTracker.serialize_moves([['e4', 'e5']])).should == [['e4', 'e5']] }
+    end
+  end
+
   describe 'basic behavior' do
     before(:all) do
       @game_instance = GameTracker.new("1. e4 e6 2. d4 d5 3. Nc3 Bb4")

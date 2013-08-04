@@ -7,6 +7,14 @@ class GameTracker
   end
 
   class << self
+    def serialize_moves(arr)
+      arr.map { |k| k.join(',') }.join('|')
+    end
+
+    def de_serialize_moves(str)
+      str.split('|').map { |k| k.split(',') }
+    end
+
     def split_game_string(game_string)
       game_string.split(/\d+\./).map do |k|
         if k.blank?
