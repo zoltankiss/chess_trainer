@@ -50,6 +50,8 @@ describe GameTracker do
       })
     end
     it { @game_instance.next_opponent_move.should be_nil }
+    it { @game_instance.last_move_correct?.should be_true }
+    it { @game_instance.last_actual_move.should be_nil }
     describe 'second move' do
       context 'wrong' do
         before(:all) { @game_instance.guess_next_move('e4') }
@@ -57,6 +59,8 @@ describe GameTracker do
         it { @game_instance.next_opponent_move.should == 'd5' }
         it { @game_instance.current_score.should      == 1 }
         it { @game_instance.game_is_over?.should      == false }
+        it { @game_instance.last_move_correct?.should be_false }
+        it { @game_instance.last_actual_move.should == 'd4' }
       end
       describe 'third move' do
         context 'correct' do
@@ -65,6 +69,8 @@ describe GameTracker do
           it { @game_instance.next_opponent_move.should == 'Bb4' }
           it { @game_instance.current_score.should      == 2 }
           it { @game_instance.game_is_over?.should      == true }
+          it { @game_instance.last_move_correct?.should be_true }
+          it { @game_instance.last_actual_move.should == 'Nc3' }
         end
       end
     end
@@ -78,6 +84,8 @@ describe GameTracker do
     it { @game_instance.next_opponent_move.should be_nil }
     it { @game_instance.current_score.should      == 0 }
     it { @game_instance.game_is_over?.should      == false }
+    it { @game_instance.last_move_correct?.should be_true }
+    it { @game_instance.last_actual_move.should be_nil }
     describe 'first move' do
       context 'correct' do
         before(:all) { @game_instance.guess_next_move('e4') }
@@ -85,6 +93,8 @@ describe GameTracker do
         it { @game_instance.next_opponent_move.should == 'e6' }
         it { @game_instance.current_score.should      == 1 }
         it { @game_instance.game_is_over?.should      == false }
+        it { @game_instance.last_move_correct?.should be_true }
+        it { @game_instance.last_actual_move.should == 'e4' }
         describe 'second move' do
           context 'wrong' do
             before(:all) { @game_instance.guess_next_move('e4') }
@@ -92,6 +102,8 @@ describe GameTracker do
             it { @game_instance.next_opponent_move.should == 'd5' }
             it { @game_instance.current_score.should      == 1 }
             it { @game_instance.game_is_over?.should      == false }
+            it { @game_instance.last_move_correct?.should be_false }
+            it { @game_instance.last_actual_move.should == 'd4' }
           end
           describe 'third move' do
             context 'correct' do
@@ -100,6 +112,8 @@ describe GameTracker do
               it { @game_instance.next_opponent_move.should == 'Bb4' }
               it { @game_instance.current_score.should      == 2 }
               it { @game_instance.game_is_over?.should      == true }
+              it { @game_instance.last_move_correct?.should be_true }
+              it { @game_instance.last_actual_move.should == 'Nc3' }
             end
           end
         end

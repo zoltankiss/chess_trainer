@@ -13,6 +13,7 @@ class GameTracker
       @original_moves = @remaining_moves = self.class.split_game_string(game.remove_newlines)
       @next_opponent_move = @remaining_moves[0][1]
       @last_move = nil
+      @last_actual_move = nil
     end
   end
 
@@ -57,7 +58,8 @@ class GameTracker
   end
 
   def guess_next_move(move)
-    @last_move = @remaining_moves[0][0]
+    @last_move = move
+    @last_actual_move = @remaining_moves[0][0]
     if @remaining_moves[0][0] == move
       @score += 1
       @current_move_correct = true
@@ -88,5 +90,21 @@ class GameTracker
     else
       @next_opponent_move
     end
+  end
+
+  def last_move_correct?
+    @last_actual_move == @last_move
+  end
+
+  def last_move
+    @last_move
+  end
+
+  def last_actual_move
+    @last_actual_move
+  end
+
+  def first_move
+    @remaining_moves[0][0]
   end
 end

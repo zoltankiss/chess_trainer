@@ -1,5 +1,18 @@
 <h2>score: <%= @game.current_score %></h2>
-<h2>your opponent's move: <%= @game.next_opponent_move %></h2>
+<% unless @game.next_opponent_move.nil? %>
+  <h2>your opponent's move: <%= @game.next_opponent_move %></h2>
+<% end %>
+
+<% if @game.last_move.nil? %>
+  <h3>Welcome to the chess move prediction game! Guess the next move:</h3>
+<% else %>
+  <% if @game.last_move_correct? %>
+    <h3 style='color: green'>Last move: <%= @game.last_move %> (correctly guessed!)</h3>
+  <% else %>
+    <h3 style='color: green'>actual move: <%= @game.last_actual_move %></h3>
+    <h3 style='color: red'>you guessed: <%= @game.last_move %></h3>
+  <% end %>
+<% end %>
 
 <% if @game.game_is_over? %>
   <h1>Game over!</h1>
