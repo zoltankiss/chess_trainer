@@ -1,4 +1,23 @@
 <%= form_tag("/create_game", method: "post") do %>
-  <%= text_area_tag 'moves', '1. e4 e6 2. d4 d5 3. Nc3 Bb4' %>
+<%
+  text_area_content =
+  '''
+1. c4 e5 2. Nc3 Nc6 3. Nf3 f5 4. d4 e4 5. Nd2 Nxd4 6. Ndxe4
+Nc6 7. Ng3 d6 8. e3 Be6 9. Bd3 g6 10. b3 Bg7 11. Bb2 Qd7
+12. O-O Nf6 13. Qd2 h5 14. e4 Bh6 15. f4 h4 16. exf5 hxg3
+17. fxe6 gxh2+ 18. Kh1 Qh7 19. Nd5 Nxd5 20. cxd5 Ne5 21. Qc2
+Nxd3 22. Qxd3 Rf8 23. Qb5+ Kd8 24. Qxb7 Rc8 25. Qb4 Rf5
+26. Rae1 Qe7 27. Qe4 Rb8 28. Re3 a5 29. Rh3 Rb4 30. Bd4 Bg7
+31. Rd1 Rh5 32. Rxh5 gxh5 33. Qe3 Qf8 34. e7+ Qxe7 35. Qxe7+
+Kxe7 36. Bxg7 Rxf4 37. Kxh2 Rf2 38. a3 Ra2 39. a4 Rc2 40. Rd3
+Rc5 41. Kg3 Kd7 42. Kf4 Rc2 43. Kf3 Rc1 44. Bc3 Rf1+ 45. Kg3
+c5 46. Bxa5 Rf5 47. Bb6 Kc8 48. a5 Rg5+ 49. Kh3 Rg4 50. Rf3
+Rb4 51. Kg3 Rd4 52. a6 Rg4+ 53. Kh3 Rg8 54. Rf7 Kb8 55. a7+
+Ka8 56. Rd7 Rc8 57. Rxd6 Kb7 58. Rd8 Rxd8 59. Bxd8 Kxa7
+60. Kh4
+'''
+%>
+  <%= text_area_tag 'moves', text_area_content, rows: 17, cols: 100 %>
+  <br />
   <%= submit_tag("Start Game!") %>
 <% end %>

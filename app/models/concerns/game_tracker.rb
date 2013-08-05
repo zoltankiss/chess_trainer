@@ -4,7 +4,9 @@ class GameTracker
                 :original_moves,
                 :remaining_moves,
                 :next_opponent_move,
-                :last_move
+                :last_move,
+                :last_actual_move,
+                :current_move
 
   def initialize(game = nil)
     unless game.nil?
@@ -14,6 +16,7 @@ class GameTracker
       @next_opponent_move = @remaining_moves[0][1]
       @last_move = nil
       @last_actual_move = nil
+      @current_move = 1
     end
   end
 
@@ -41,9 +44,11 @@ class GameTracker
       instance.score                = serialization[:current_game_score]
       instance.current_move_correct = false
       instance.original_moves       = de_serialize_moves(serialization[:original_game])
-      instance.remaining_moves      = de_serialize_moves(serialization[:current_game])
+      instance.remaining_moves      = instance.original_moves[(serialization[:current_move] - 1)..-1]
       instance.next_opponent_move   = instance.remaining_moves[0][1]
       instance.last_move            = serialization[:last_move]
+      instance.last_actual_move     = serialization[:current_move] == 1 ? nil : instance.original_moves[serialization[:current_move] - 2][0]
+      instance.current_move         = serialization[:current_move] || 1
       instance
     end
   end
@@ -51,13 +56,14 @@ class GameTracker
   def serialize
     {
       original_game:         self.class.serialize_moves(@original_moves),
-      current_game:          self.class.serialize_moves(@remaining_moves),
       current_game_score:    @score,
-      last_move:             @last_move
+      last_move:             @last_move,
+      current_move:          @current_move
     }
   end
 
   def guess_next_move(move)
+    @current_move += 1
     @last_move = move
     @last_actual_move = @remaining_moves[0][0]
     if @remaining_moves[0][0] == move
@@ -85,7 +91,7 @@ class GameTracker
   end
 
   def next_opponent_move
-    if @last_move.nil?
+    if @original_moves.count == @remaining_moves.count
       nil
     else
       @next_opponent_move
@@ -106,5 +112,9 @@ class GameTracker
 
   def first_move
     @remaining_moves[0][0]
+  end
+
+  def current_move
+    @original_moves.count - @remaining_moves.count
   end
 end

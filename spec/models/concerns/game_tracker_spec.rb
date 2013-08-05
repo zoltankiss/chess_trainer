@@ -33,9 +33,9 @@ describe GameTracker do
       game_instance.guess_next_move('e4')
       game_instance.serialize.should == {
         original_game:         'e4,e6|d4,d5|Nc3,Bb4',
-        current_game:          'd4,d5|Nc3,Bb4',
         current_game_score:    1,
-        last_move:             'e4'
+        last_move:             'e4',
+        current_move:          2,
       }
     end
   end
@@ -44,14 +44,14 @@ describe GameTracker do
     before(:all) do
       @game_instance = GameTracker.load_serialization({
         original_game:         'e4,e6|d4,d5|Nc3,Bb4',
-        current_game:          'd4,d5|Nc3,Bb4',
         current_game_score:    1,
-        last_move:             nil
+        last_move:             'e4',
+        current_move:          2
       })
     end
-    it { @game_instance.next_opponent_move.should be_nil }
+    it { @game_instance.next_opponent_move.should == 'd5' }
     it { @game_instance.last_move_correct?.should be_true }
-    it { @game_instance.last_actual_move.should be_nil }
+    it { @game_instance.last_actual_move.should == 'e4' }
     describe 'second move' do
       context 'wrong' do
         before(:all) { @game_instance.guess_next_move('e4') }

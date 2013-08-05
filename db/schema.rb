@@ -11,15 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130804212923) do
+ActiveRecord::Schema.define(version: 20130804233113) do
 
   create_table "games", force: true do |t|
     t.string   "original_game"
-    t.string   "current_game"
     t.integer  "current_game_score"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "last_move"
+    t.integer  "current_move"
   end
 
 end
