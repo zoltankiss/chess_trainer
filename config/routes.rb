@@ -1,8 +1,9 @@
 ChessApp::Application.routes.draw do
-  root 'games#new'
-  get  'guess_next_move/:id' => 'games#guess_next_move', as: 'guess_next_move'
-  get  'show/:id'            => 'games#show',            as: 'show_game'
-  post 'create_game'         => 'games#create',          as: 'games'
+  root  to: redirect('/new_game')
+  get   'new_game'            => 'games#new',             as: 'new_game'
+  post  'guess_next_move/:id' => 'games#guess_next_move', as: 'guess_next_move'
+  get   'show_game/:id'       => 'games#show',            as: 'show_game'
+  post  'create_game'         => 'games#create',          as: 'games'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

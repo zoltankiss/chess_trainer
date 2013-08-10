@@ -17,7 +17,7 @@ class GamesController < ApplicationController
     get_game
     @game.guess_next_move(params[:move])
     @game_model_instance.update_attributes(@game.serialize)
-    render 'game'
+    redirect_to show_game_path(@game_model_instance)
   end
 
   private
