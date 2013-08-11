@@ -117,4 +117,8 @@ class GameTracker
   def current_move
     @original_moves.count - @remaining_moves.count
   end
+
+  def previous_moves
+    []
+  end
 end

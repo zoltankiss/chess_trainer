@@ -49,12 +49,14 @@ describe GameTracker do
         current_move:          2
       })
     end
+    it { @game_instance.previous_moves.should     == [['e4', 'e6']] }
     it { @game_instance.next_opponent_move.should == 'd5' }
     it { @game_instance.last_move_correct?.should be_true }
     it { @game_instance.last_actual_move.should == 'e4' }
     describe 'second move' do
       context 'wrong' do
         before(:all) { @game_instance.guess_next_move('e4') }
+        it { @game_instance.previous_moves.should     == [['e4', 'e6'], ['d4', 'd5']] }
         it { @game_instance.correct_guess?.should     == false }
         it { @game_instance.next_opponent_move.should == 'd5' }
         it { @game_instance.current_score.should      == 1 }
@@ -65,6 +67,7 @@ describe GameTracker do
       describe 'third move' do
         context 'correct' do
           before(:all) { @game_instance.guess_next_move('Nc3') }
+          it { @game_instance.previous_moves.should     == [['e4', 'e6'], ['d4', 'd5'], ['Nc3', 'Bb4']] }
           it { @game_instance.correct_guess?.should     == true }
           it { @game_instance.next_opponent_move.should == 'Bb4' }
           it { @game_instance.current_score.should      == 2 }
@@ -80,6 +83,7 @@ describe GameTracker do
     before(:all) do
       @game_instance = GameTracker.new("1. e4 e6 2. d4 d5 3. Nc3 Bb4")
     end
+    it { @game_instance.previous_moves.should     == [] }
     it { @game_instance.correct_guess?.should     == false }
     it { @game_instance.next_opponent_move.should be_nil }
     it { @game_instance.current_score.should      == 0 }
@@ -89,6 +93,7 @@ describe GameTracker do
     describe 'first move' do
       context 'correct' do
         before(:all) { @game_instance.guess_next_move('e4') }
+        it { @game_instance.previous_moves.should     == [['e4', 'e6']] }
         it { @game_instance.correct_guess?.should     == true }
         it { @game_instance.next_opponent_move.should == 'e6' }
         it { @game_instance.current_score.should      == 1 }
@@ -98,6 +103,7 @@ describe GameTracker do
         describe 'second move' do
           context 'wrong' do
             before(:all) { @game_instance.guess_next_move('e4') }
+            it { @game_instance.previous_moves.should     == [['e4', 'e6'], ['d4', 'd5']] }
             it { @game_instance.correct_guess?.should     == false }
             it { @game_instance.next_opponent_move.should == 'd5' }
             it { @game_instance.current_score.should      == 1 }
@@ -108,6 +114,7 @@ describe GameTracker do
           describe 'third move' do
             context 'correct' do
               before(:all) { @game_instance.guess_next_move('Nc3') }
+              it { @game_instance.previous_moves.should     == [['e4', 'e6'], ['d4', 'd5'], ['Nc3', 'Bb4']] }
               it { @game_instance.correct_guess?.should     == true }
               it { @game_instance.next_opponent_move.should == 'Bb4' }
               it { @game_instance.current_score.should      == 2 }
