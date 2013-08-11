@@ -22,3 +22,10 @@
     <%= submit_tag("Submit move guess!") %>
   <% end %>
 <% end %>
+
+<% unless @game.previous_moves.blank? %>
+  <h2>Previous moves</h2>
+  <% @game.previous_moves.each_with_index do |move, index| %>
+    <%= "#{index + 1}. #{move[0]} #{move[1]}" %>&nbsp;
+  <% end %>
+<% end %>

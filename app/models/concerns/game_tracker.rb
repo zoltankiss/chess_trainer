@@ -119,6 +119,10 @@ class GameTracker
   end
 
   def previous_moves
-    []
+    if current_move == 0
+      []
+    else
+      @original_moves[0..(current_move - 1)]
+    end
   end
 end
