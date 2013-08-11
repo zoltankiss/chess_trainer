@@ -1,6 +1,7 @@
 <h2>score: <%= @game.current_score %></h2>
+<h3>move: <%= @game.current_move %></h3>
 <% unless @game.next_opponent_move.nil? %>
-  <h2>your opponent's move: <%= @game.next_opponent_move %></h2>
+  <h2>your opponent's move: <%= @game.last_opponent_move %></h2>
 <% end %>
 
 <% if @game.last_move.nil? %>
@@ -23,9 +24,11 @@
   <% end %>
 <% end %>
 
-<% unless @game.previous_moves.blank? %>
-  <h2>Previous moves</h2>
-  <% @game.previous_moves.each_with_index do |move, index| %>
-    <%= "#{index + 1}. #{move[0]} #{move[1]}" %>&nbsp;
+<div style="width: 500px">
+  <% unless @game.previous_moves.blank? %>
+    <h2>Previous moves</h2>
+    <% @game.previous_moves.each_with_index do |move, index| %>
+      <%= "#{index + 1}. #{move[0]} #{move[1]}" %>&nbsp;
+    <% end %>
   <% end %>
-<% end %>
+</div>

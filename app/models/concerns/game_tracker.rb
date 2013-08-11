@@ -98,31 +98,39 @@ class GameTracker
     end
   end
 
+  def last_actual_move
+    if @current_move == 1
+      nil
+    else
+      @original_moves[@current_move - 2][0]
+    end
+  end
+
+  def last_opponent_move
+    if @current_move == 1
+      nil
+    else
+      @original_moves[@current_move - 2][1]
+    end
+  end
+
   def last_move_correct?
     @last_actual_move == @last_move
-  end
-
-  def last_move
-    @last_move
-  end
-
-  def last_actual_move
-    @last_actual_move
   end
 
   def first_move
     @remaining_moves[0][0]
   end
 
-  def current_move
-    @original_moves.count - @remaining_moves.count
-  end
-
   def previous_moves
-    if current_move == 0
+    if current_move == 1
       []
     else
-      @original_moves[0..(current_move - 1)]
+      @original_moves[0..(current_move - 2)]
     end
+  end
+
+  def current_move
+    @current_move
   end
 end
