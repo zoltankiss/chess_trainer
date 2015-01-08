@@ -54,6 +54,7 @@ describe GameTracker do
         unserialized_game.current_move.should == 1
       end
     end
+
     context 'play entire game' do
       before(:all) do
         @game_instance = GameTracker.load_serialization({
@@ -63,12 +64,14 @@ describe GameTracker do
           current_move:          2
         })
       end
+
       it { @game_instance.previous_moves.should     == [['e4', 'e6']] }
       it { @game_instance.last_opponent_move.should == 'e6' }
       it { @game_instance.last_move_correct?.should be_true }
       it { @game_instance.last_actual_move.should   == 'e4' }
       it { @game_instance.last_move.should          == 'e4' }
       it { @game_instance.current_move.should       == 2 }
+
       describe 'second move' do
         context 'wrong' do
           before(:all) { @game_instance.guess_next_move('e4') }
@@ -82,6 +85,7 @@ describe GameTracker do
           it { @game_instance.last_move.should          == 'e4' }
            it { @game_instance.current_move.should      == 3 }
         end
+
         describe 'third move' do
           context 'correct' do
             before(:all) { @game_instance.guess_next_move('Nc3') }
